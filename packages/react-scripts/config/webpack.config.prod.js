@@ -24,6 +24,10 @@ const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 
+// Dan additions
+const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
+const postCSSLoaderOptions = require('./postCSSLoaderOptions');
+
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
 const publicPath = paths.servedPath;
@@ -61,18 +65,7 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
       // Adds vendor prefixing based on your specified browser support in
       // package.json
       loader: require.resolve('postcss-loader'),
-      options: {
-        // Necessary for external CSS imports to work
-        // https://github.com/facebook/create-react-app/issues/2677
-        ident: 'postcss',
-        plugins: () => [
-          require('postcss-flexbugs-fixes'),
-          autoprefixer({
-            flexbox: 'no-2009',
-          }),
-        ],
-        sourceMap: shouldUseSourceMap,
-      },
+      options: postCSSLoaderOptions,
     },
   ];
   if (preProcessor) {
@@ -203,6 +196,7 @@ module.exports = {
       // please link the files into your node_modules/ and let module-resolution kick in.
       // Make sure your source files are compiled, as they will not be processed in any way.
       new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
+      new DirectoryNamedWebpackPlugin(),
     ],
   },
   module: {
@@ -268,7 +262,16 @@ module.exports = {
                   // @remove-on-eject-begin
                   babelrc: false,
                   // @remove-on-eject-end
-                  presets: [require.resolve('babel-preset-react-app')],
+                  presets: [
+                    [
+                      '@babel/preset-stage-2',
+                      {
+                        loose: true,
+                        decoratorsLegacy: true,
+                      },
+                    ],
+                    require.resolve('babel-preset-react-app'),
+                  ],
                   plugins: [
                     [
                       require.resolve('babel-plugin-named-asset-import'),
