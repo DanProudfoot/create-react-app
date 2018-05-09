@@ -1,6 +1,6 @@
 {
 	"name": "@danproudfeet/react-dev-utils",
-	"version": "6.0.0-1",
+	"version": "6.0.0-2",
 	"description": "Webpack utilities used by Create React App",
 	"repository": "facebook/create-react-app",
 	"license": "MIT",
@@ -54,8 +54,8 @@
 		"is-root": "1.0.0",
 		"opn": "5.3.0",
 		"pkg-up": "2.0.0",
-		"recursive-readdir": "2.2.2",
 		"react-error-overlay": "^5.0.0-1",
+		"recursive-readdir": "2.2.2",
 		"shell-quote": "1.6.1",
 		"sockjs-client": "1.1.4",
 		"strip-ansi": "4.0.0",

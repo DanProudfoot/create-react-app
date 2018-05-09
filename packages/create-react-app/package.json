@@ -1,7 +1,9 @@
 {
 	"name": "@danproudfeet/create-react-app",
-	"version": "2.0.0-1",
-	"keywords": ["react"],
+	"version": "2.0.0-2",
+	"keywords": [
+		"react"
+	],
 	"description": "Create React apps with no build configuration.",
 	"repository": "facebook/create-react-app",
 	"license": "MIT",
@@ -11,7 +13,10 @@
 	"bugs": {
 		"url": "https://github.com/facebook/create-react-app/issues"
 	},
-	"files": ["index.js", "createReactApp.js"],
+	"files": [
+		"index.js",
+		"createReactApp.js"
+	],
 	"bin": {
 		"create-react-app": "./index.js"
 	},
