@@ -1,6 +1,6 @@
 {
 	"name": "@danproudfeet/eslint-config-react-app",
-	"version": "3.0.0-2",
+	"version": "3.0.0-5",
 	"description": "ESLint configuration used by Create React App",
 	"repository": "facebook/create-react-app",
 	"license": "MIT",
@@ -10,6 +10,9 @@
 	"files": [
 		"index.js"
 	],
+	"publishConfig": {
+		"access": "public"
+	},
 	"peerDependencies": {
 		"babel-eslint": "^8.2.2",
 		"eslint": "^4.1.1",

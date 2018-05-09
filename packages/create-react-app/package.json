@@ -1,6 +1,6 @@
 {
 	"name": "@danproudfeet/create-react-app",
-	"version": "2.0.0-2",
+	"version": "2.0.0-5",
 	"keywords": [
 		"react"
 	],
@@ -12,6 +12,9 @@
 	},
 	"bugs": {
 		"url": "https://github.com/facebook/create-react-app/issues"
+	},
+	"publishConfig": {
+		"access": "public"
 	},
 	"files": [
 		"index.js",

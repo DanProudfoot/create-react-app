@@ -1,11 +1,14 @@
 {
 	"name": "@danproudfeet/react-scripts",
-	"version": "2.0.0-2",
+	"version": "2.0.0-5",
 	"description": "Configuration and scripts for Create React App.",
 	"repository": "facebook/create-react-app",
 	"license": "MIT",
 	"engines": {
 		"node": ">=6"
+	},
+	"publishConfig": {
+		"access": "public"
 	},
 	"bugs": {
 		"url": "https://github.com/facebook/create-react-app/issues"

@@ -1,6 +1,6 @@
 {
 	"name": "@danproudfeet/babel-preset-react-app",
-	"version": "4.0.0-2",
+	"version": "4.0.0-5",
 	"description": "Babel preset used by Create React App",
 	"repository": "facebook/create-react-app",
 	"license": "MIT",
@@ -11,6 +11,9 @@
 		"index.js",
 		"dependencies.js"
 	],
+	"publishConfig": {
+		"access": "public"
+	},
 	"dependencies": {
 		"@babel/core": "7.0.0-beta.46",
 		"@babel/plugin-proposal-class-properties": "7.0.0-beta.46",

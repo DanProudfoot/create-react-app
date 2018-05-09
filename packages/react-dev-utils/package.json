@@ -1,11 +1,14 @@
 {
 	"name": "@danproudfeet/react-dev-utils",
-	"version": "6.0.0-2",
+	"version": "6.0.0-5",
 	"description": "Webpack utilities used by Create React App",
 	"repository": "facebook/create-react-app",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/facebook/create-react-app/issues"
+	},
+	"publishConfig": {
+		"access": "public"
 	},
 	"engines": {
 		"node": ">=6"
