@@ -235,6 +235,7 @@ module.exports = {
                   ],
                   plugins: [
                     [
+                      ['@babel/plugin-proposal-decorators', { legacy: true }],
                       require.resolve('babel-plugin-named-asset-import'),
                       {
                         loaderMap: {

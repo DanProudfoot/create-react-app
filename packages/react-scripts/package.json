@@ -25,6 +25,7 @@
 	},
 	"dependencies": {
 		"@babel/core": "7.0.0-beta.46",
+		"@babel/plugin-proposal-decorators": "^7.0.0-beta.46",
 		"@babel/preset-stage-2": "^7.0.0-beta.46",
 		"@babel/runtime": "7.0.0-beta.46",
 		"@danproudfeet/react-dev-utils": "^6.6.1",
