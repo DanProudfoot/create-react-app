@@ -1,6 +1,6 @@
 {
 	"name": "@danproudfeet/react-scripts",
-	"version": "2.6.1",
+	"version": "2.7.0",
 	"description": "Configuration and scripts for Create React App.",
 	"repository": "facebook/create-react-app",
 	"license": "MIT",
@@ -27,7 +27,7 @@
 		"@babel/core": "7.0.0-beta.46",
 		"@babel/preset-stage-2": "^7.0.0-beta.46",
 		"@babel/runtime": "7.0.0-beta.46",
-		"@danproudfeet/babel-preset-react-app": "^4.3.2",
+		"@danproudfeet/babel-preset-react-app": "^4.4.0",
 		"@danproudfeet/react-dev-utils": "^6.6.1",
 		"autoprefixer": "8.4.1",
 		"babel-core": "7.0.0-bridge.0",
