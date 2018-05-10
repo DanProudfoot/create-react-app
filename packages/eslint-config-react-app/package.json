@@ -1,6 +1,6 @@
 {
 	"name": "@danproudfeet/eslint-config-react-app",
-	"version": "3.0.0-7-beta.0",
+	"version": "3.1.0-0",
 	"description": "ESLint configuration used by Create React App",
 	"repository": "facebook/create-react-app",
 	"license": "MIT",
