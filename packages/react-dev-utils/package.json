@@ -1,6 +1,6 @@
 {
 	"name": "@danproudfeet/react-dev-utils",
-	"version": "6.4.2",
+	"version": "6.5.0",
 	"description": "Webpack utilities used by Create React App",
 	"repository": "facebook/create-react-app",
 	"license": "MIT",
@@ -42,7 +42,6 @@
 	],
 	"dependencies": {
 		"@babel/code-frame": "7.0.0-beta.46",
-		"react-error-overlay": "^5.0.0-next.66cc7a90",
 		"address": "1.0.3",
 		"browserslist": "3.2.6",
 		"chalk": "2.4.1",
@@ -58,6 +57,7 @@
 		"is-root": "1.0.0",
 		"opn": "5.3.0",
 		"pkg-up": "2.0.0",
+		"react-error-overlay": "^5.0.0-next.66cc7a90",
 		"recursive-readdir": "2.2.2",
 		"shell-quote": "1.6.1",
 		"sockjs-client": "1.1.4",
