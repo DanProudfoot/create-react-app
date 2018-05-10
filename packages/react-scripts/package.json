@@ -25,9 +25,9 @@
 	},
 	"dependencies": {
 		"@babel/core": "7.0.0-beta.46",
-		"@babel/plugin-proposal-decorators": "^7.0.0-beta.46",
 		"@babel/preset-stage-2": "^7.0.0-beta.46",
 		"@babel/runtime": "7.0.0-beta.46",
+		"@danproudfeet/babel-preset-react-app": "^4.3.2",
 		"@danproudfeet/react-dev-utils": "^6.6.1",
 		"autoprefixer": "8.4.1",
 		"babel-core": "7.0.0-bridge.0",
@@ -35,7 +35,6 @@
 		"babel-jest": "22.4.3",
 		"babel-loader": "8.0.0-beta.0",
 		"babel-plugin-named-asset-import": "1.0.0-next.66cc7a90",
-		"babel-preset-react-app": "^4.0.0-next.66cc7a90",
 		"case-sensitive-paths-webpack-plugin": "2.1.2",
 		"chalk": "2.4.1",
 		"css-loader": "0.28.11",

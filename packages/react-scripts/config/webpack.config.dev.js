@@ -224,18 +224,10 @@ module.exports = {
                   babelrc: false,
                   // @remove-on-eject-end
                   presets: [
-                    [
-                      '@babel/preset-stage-2',
-                      {
-                        loose: true,
-                        decoratorsLegacy: true,
-                      },
-                    ],
-                    require.resolve('babel-preset-react-app'),
+                    require.resolve('@danproudfeet/babel-preset-react-app'),
                   ],
                   plugins: [
                     [
-                      ['@babel/plugin-proposal-decorators', { legacy: true }],
                       require.resolve('babel-plugin-named-asset-import'),
                       {
                         loaderMap: {
@@ -269,7 +261,9 @@ module.exports = {
                   babelrc: false,
                   compact: false,
                   presets: [
-                    require.resolve('babel-preset-react-app/dependencies'),
+                    require.resolve(
+                      '@danproudfeet/babel-preset-react-app/dependencies'
+                    ),
                   ],
                   cacheDirectory: true,
                   highlightCode: true,
