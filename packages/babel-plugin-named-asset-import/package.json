@@ -1,6 +1,6 @@
 {
 	"name": "@danproudfeet/babel-plugin-named-asset-import",
-	"version": "1.1.0-0",
+	"version": "1.2.0-0",
 	"description": "Babel plugin for named asset imports in Create React App",
 	"repository": "facebookincubator/create-react-app",
 	"license": "MIT",
