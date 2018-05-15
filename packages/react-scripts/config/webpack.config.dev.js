@@ -58,7 +58,7 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
     },
   ];
   if (preProcessor) {
-    loaders.push(require.resolve(preProcessor));
+    loaders.push(preProcessor);
   }
   return loaders;
 };
@@ -158,7 +158,10 @@ module.exports = {
       // please link the files into your node_modules/ and let module-resolution kick in.
       // Make sure your source files are compiled, as they will not be processed in any way.
       new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
-      new DirectoryNamedWebpackPlugin(),
+      new DirectoryNamedWebpackPlugin({
+        // Make sure the main field isn't respected for reasons unknown. Makes stuffl iek firebase etc. work
+        honorPackage: false,
+      }),
     ],
   },
   module: {
@@ -282,6 +285,7 @@ module.exports = {
             exclude: cssModuleRegex,
             use: getStyleLoaders({
               importLoaders: 1,
+              sourceMap: true,
             }),
           },
           // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
@@ -291,6 +295,8 @@ module.exports = {
             use: getStyleLoaders({
               importLoaders: 1,
               modules: true,
+              camelCase: true,
+              sourceMap: true,
               getLocalIdent: getCSSModuleLocalIdent,
             }),
           },
@@ -302,7 +308,16 @@ module.exports = {
           {
             test: sassRegex,
             exclude: sassModuleRegex,
-            use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader'),
+            use: getStyleLoaders(
+              { importLoaders: 2, sourceMap: true },
+              {
+                loader: require.resolve('sass-loader'),
+                options: {
+                  includePaths: ['src/'],
+                  sourceMap: true,
+                },
+              }
+            ),
           },
           // Adds support for CSS Modules, but using SASS
           // using the extension .module.scss or .module.sass
@@ -312,9 +327,17 @@ module.exports = {
               {
                 importLoaders: 2,
                 modules: true,
+                camelCase: true,
+                sourceMap: true,
                 getLocalIdent: getCSSModuleLocalIdent,
               },
-              'sass-loader'
+              {
+                loader: require.resolve('sass-loader'),
+                options: {
+                  includePaths: ['src/'],
+                  sourceMap: true,
+                },
+              }
             ),
           },
           // The GraphQL loader preprocesses GraphQL queries in .graphql files.
