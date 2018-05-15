@@ -8,7 +8,6 @@
 // @remove-on-eject-end
 'use strict';
 
-const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -69,12 +68,7 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
     },
   ];
   if (preProcessor) {
-    loaders.push({
-      loader: require.resolve(preProcessor),
-      options: {
-        sourceMap: shouldUseSourceMap,
-      },
-    });
+    loaders.push(preProcessor);
   }
   return loaders;
 };
@@ -196,7 +190,10 @@ module.exports = {
       // please link the files into your node_modules/ and let module-resolution kick in.
       // Make sure your source files are compiled, as they will not be processed in any way.
       new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
-      new DirectoryNamedWebpackPlugin(),
+      new DirectoryNamedWebpackPlugin({
+        // Make sure the main field isn't respected for reasons unknown. Makes stuffl iek firebase etc. work
+        honorPackage: false,
+      }),
     ],
   },
   module: {
@@ -270,7 +267,7 @@ module.exports = {
                         decoratorsLegacy: true,
                       },
                     ],
-                    require.resolve('babel-preset-react-app'),
+                    require.resolve('@danproudfeet/babel-preset-react-app'),
                   ],
                   plugins: [
                     [
@@ -304,7 +301,9 @@ module.exports = {
                   babelrc: false,
                   compact: false,
                   presets: [
-                    require.resolve('babel-preset-react-app/dependencies'),
+                    require.resolve(
+                      '@danproudfeet/babel-preset-react-app/dependencies'
+                    ),
                   ],
                   cacheDirectory: true,
                   highlightCode: true,
@@ -331,6 +330,7 @@ module.exports = {
             test: cssModuleRegex,
             loader: getStyleLoaders({
               importLoaders: 1,
+              camelCase: true,
               sourceMap: shouldUseSourceMap,
               modules: true,
               getLocalIdent: getCSSModuleLocalIdent,
@@ -349,7 +349,13 @@ module.exports = {
                 importLoaders: 2,
                 sourceMap: shouldUseSourceMap,
               },
-              'sass-loader'
+              {
+                loader: require.resolve('sass-loader'),
+                options: {
+                  includePaths: ['src/'],
+                  sourceMap: shouldUseSourceMap,
+                },
+              }
             ),
           },
           // Adds support for CSS Modules, but using SASS
@@ -361,9 +367,16 @@ module.exports = {
                 importLoaders: 2,
                 sourceMap: shouldUseSourceMap,
                 modules: true,
+                camelCase: true,
                 getLocalIdent: getCSSModuleLocalIdent,
               },
-              'sass-loader'
+              {
+                loader: require.resolve('sass-loader'),
+                options: {
+                  includePaths: ['src/'],
+                  sourceMap: shouldUseSourceMap,
+                },
+              }
             ),
           },
           // The GraphQL loader preprocesses GraphQL queries in .graphql files.

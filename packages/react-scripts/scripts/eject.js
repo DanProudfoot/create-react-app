@@ -20,8 +20,8 @@ const execSync = require('child_process').execSync;
 const chalk = require('chalk');
 const paths = require('../config/paths');
 const createJestConfig = require('./utils/createJestConfig');
-const inquirer = require('react-dev-utils/inquirer');
-const spawnSync = require('react-dev-utils/crossSpawn').sync;
+const inquirer = require('@danproudfeet/react-dev-utils/inquirer');
+const spawnSync = require('@danproudfeet/react-dev-utils/crossSpawn').sync;
 const os = require('os');
 
 const green = chalk.green;
@@ -245,7 +245,9 @@ inquirer
       }
 
       console.log(cyan('Running yarn...'));
-      spawnSync('yarnpkg', ['--cwd', process.cwd()], { stdio: 'inherit' });
+      spawnSync('yarnpkg', ['--cwd', process.cwd()], {
+        stdio: 'inherit',
+      });
 
       if (windowsCmdFileContent && !fs.existsSync(windowsCmdFilePath)) {
         try {
