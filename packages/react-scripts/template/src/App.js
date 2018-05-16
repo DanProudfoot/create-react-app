@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-@dec
 class App extends Component {
   render() {
     return (
@@ -24,10 +23,6 @@ class App extends Component {
       </div>
     );
   }
-}
-
-function dec(Wrappable) {
-  return <Wrappable />;
 }
 
 export default App;
