@@ -1,13 +1,16 @@
 {
 	"name": "@danproudfeet/babel-preset-react-app",
-	"version": "4.4.0",
+	"version": "4.4.1",
 	"description": "Babel preset used by Create React App",
 	"repository": "facebook/create-react-app",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/facebook/create-react-app/issues"
 	},
-	"files": ["index.js", "dependencies.js"],
+	"files": [
+		"index.js",
+		"dependencies.js"
+	],
 	"publishConfig": {
 		"access": "public"
 	},
