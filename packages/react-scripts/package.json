@@ -1,6 +1,6 @@
 {
 	"name": "@danproudfeet/react-scripts",
-	"version": "2.8.0",
+	"version": "2.8.1",
 	"description": "Configuration and scripts for Create React App.",
 	"repository": "facebook/create-react-app",
 	"license": "MIT",
@@ -13,19 +13,12 @@
 	"bugs": {
 		"url": "https://github.com/facebook/create-react-app/issues"
 	},
-	"files": [
-		"bin",
-		"config",
-		"scripts",
-		"template",
-		"utils"
-	],
+	"files": ["bin", "config", "scripts", "template", "utils"],
 	"bin": {
 		"react-scripts": "./bin/react-scripts.js"
 	},
 	"dependencies": {
 		"@babel/core": "7.0.0-beta.46",
-		"@babel/preset-stage-2": "^7.0.0-beta.46",
 		"@babel/runtime": "7.0.0-beta.46",
 		"@danproudfeet/babel-preset-react-app": "^4.4.0",
 		"@danproudfeet/react-dev-utils": "^6.6.1",
@@ -95,11 +88,6 @@
 			"last 2 firefox versions",
 			"last 2 edge versions"
 		],
-		"production": [
-			">1%",
-			"last 4 versions",
-			"Firefox ESR",
-			"not ie < 11"
-		]
+		"production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
 	}
 }
