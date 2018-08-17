@@ -268,7 +268,9 @@ module.exports = {
                   // @remove-on-eject-begin
                   babelrc: false,
                   // @remove-on-eject-end
-                  presets: [require.resolve('babel-preset-react-app')],
+                  presets: [
+                    require.resolve('@danproudfeet/babel-preset-react-app'),
+                  ],
                   plugins: [
                     [
                       require.resolve('babel-plugin-named-asset-import'),
@@ -301,7 +303,9 @@ module.exports = {
                   babelrc: false,
                   compact: false,
                   presets: [
-                    require.resolve('babel-preset-react-app/dependencies'),
+                    require.resolve(
+                      '@danproudfeet/babel-preset-react-app/dependencies'
+                    ),
                   ],
                   cacheDirectory: true,
                   highlightCode: true,
