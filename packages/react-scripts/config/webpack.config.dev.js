@@ -22,6 +22,9 @@ const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
+// Dan additions
+const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
+
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
 const publicPath = '/';
@@ -165,6 +168,11 @@ module.exports = {
       // please link the files into your node_modules/ and let module-resolution kick in.
       // Make sure your source files are compiled, as they will not be processed in any way.
       new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
+      //   Allow you to import from a file from the directory of the same name implicitly.
+      //   Excludes touching node_modules
+      new DirectoryNamedWebpackPlugin({
+        exclude: /node_modules/,
+      }),
     ],
   },
   module: {
