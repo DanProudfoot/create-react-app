@@ -8,7 +8,6 @@
 // @remove-on-eject-end
 'use strict';
 
-const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -21,6 +20,10 @@ const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const ManifestPlugin = require('webpack-manifest-plugin');
+
+// Dan additions
+const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
+const postCSSOptions = require('./postCSSLoaderOptions');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -51,21 +54,11 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
       // Adds vendor prefixing based on your specified browser support in
       // package.json
       loader: require.resolve('postcss-loader'),
-      options: {
-        // Necessary for external CSS imports to work
-        // https://github.com/facebook/create-react-app/issues/2677
-        ident: 'postcss',
-        plugins: () => [
-          require('postcss-flexbugs-fixes'),
-          autoprefixer({
-            flexbox: 'no-2009',
-          }),
-        ],
-      },
+      options: postCSSOptions,
     },
   ];
   if (preProcessor) {
-    loaders.push(require.resolve(preProcessor));
+    loaders.push(preProcessor);
   }
   return loaders;
 };
@@ -165,6 +158,11 @@ module.exports = {
       // please link the files into your node_modules/ and let module-resolution kick in.
       // Make sure your source files are compiled, as they will not be processed in any way.
       new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
+      //   Allow you to import from a file from the directory of the same name implicitly.
+      //   Excludes touching node_modules
+      new DirectoryNamedWebpackPlugin({
+        exclude: /node_modules/,
+      }),
     ],
   },
   module: {
@@ -298,6 +296,7 @@ module.exports = {
             exclude: cssModuleRegex,
             use: getStyleLoaders({
               importLoaders: 1,
+              sourceMap: true,
             }),
           },
           // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
@@ -307,6 +306,8 @@ module.exports = {
             use: getStyleLoaders({
               importLoaders: 1,
               modules: true,
+              camelCase: true,
+              sourceMap: true,
               getLocalIdent: getCSSModuleLocalIdent,
             }),
           },
@@ -318,7 +319,16 @@ module.exports = {
           {
             test: sassRegex,
             exclude: sassModuleRegex,
-            use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader'),
+            use: getStyleLoaders(
+              { importLoaders: 2, sourceMap: true },
+              {
+                loader: require.resolve('sass-loader'),
+                options: {
+                  includePaths: ['src/'],
+                  sourceMap: true,
+                },
+              }
+            ),
           },
           // Adds support for CSS Modules, but using SASS
           // using the extension .module.scss or .module.sass
@@ -328,9 +338,17 @@ module.exports = {
               {
                 importLoaders: 2,
                 modules: true,
+                camelCase: true,
+                sourceMap: true,
                 getLocalIdent: getCSSModuleLocalIdent,
               },
-              'sass-loader'
+              {
+                loader: require.resolve('sass-loader'),
+                options: {
+                  includePaths: ['src/'],
+                  sourceMap: true,
+                },
+              }
             ),
           },
           // The GraphQL loader preprocesses GraphQL queries in .graphql files.

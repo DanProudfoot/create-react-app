@@ -8,7 +8,6 @@
 // @remove-on-eject-end
 'use strict';
 
-const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -23,6 +22,11 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+
+// Dan additions
+const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const postCSSOptions = require('./postCSSLoaderOptions');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -61,27 +65,11 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
       // Adds vendor prefixing based on your specified browser support in
       // package.json
       loader: require.resolve('postcss-loader'),
-      options: {
-        // Necessary for external CSS imports to work
-        // https://github.com/facebook/create-react-app/issues/2677
-        ident: 'postcss',
-        plugins: () => [
-          require('postcss-flexbugs-fixes'),
-          autoprefixer({
-            flexbox: 'no-2009',
-          }),
-        ],
-        sourceMap: shouldUseSourceMap,
-      },
+      options: postCSSOptions,
     },
   ];
   if (preProcessor) {
-    loaders.push({
-      loader: require.resolve(preProcessor),
-      options: {
-        sourceMap: shouldUseSourceMap,
-      },
-    });
+    loaders.push(preProcessor);
   }
   return loaders;
 };
@@ -203,6 +191,11 @@ module.exports = {
       // please link the files into your node_modules/ and let module-resolution kick in.
       // Make sure your source files are compiled, as they will not be processed in any way.
       new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
+      //   Allow you to import from a file from the directory of the same name implicitly.
+      //   Excludes touching node_modules
+      new DirectoryNamedWebpackPlugin({
+        exclude: /node_modules/,
+      }),
     ],
   },
   module: {
@@ -321,7 +314,7 @@ module.exports = {
           {
             test: cssRegex,
             exclude: cssModuleRegex,
-            loader: getStyleLoaders({
+            use: getStyleLoaders({
               importLoaders: 1,
               sourceMap: shouldUseSourceMap,
             }),
@@ -330,41 +323,52 @@ module.exports = {
           // using the extension .module.css
           {
             test: cssModuleRegex,
-            loader: getStyleLoaders({
+            use: getStyleLoaders({
               importLoaders: 1,
-              sourceMap: shouldUseSourceMap,
               modules: true,
+              camelCase: true,
+              sourceMap: shouldUseSourceMap,
               getLocalIdent: getCSSModuleLocalIdent,
             }),
           },
-          // Opt-in support for SASS. The logic here is somewhat similar
-          // as in the CSS routine, except that "sass-loader" runs first
-          // to compile SASS files into CSS.
+          // Opt-in support for SASS (using .scss or .sass extensions).
+          // Chains the sass-loader with the css-loader and the style-loader
+          // to immediately apply all styles to the DOM.
           // By default we support SASS Modules with the
           // extensions .module.scss or .module.sass
           {
             test: sassRegex,
             exclude: sassModuleRegex,
-            loader: getStyleLoaders(
+            use: getStyleLoaders(
+              { importLoaders: 2, sourceMap: shouldUseSourceMap },
               {
-                importLoaders: 2,
-                sourceMap: shouldUseSourceMap,
-              },
-              'sass-loader'
+                loader: require.resolve('sass-loader'),
+                options: {
+                  includePaths: ['src/'],
+                  sourceMap: shouldUseSourceMap,
+                },
+              }
             ),
           },
           // Adds support for CSS Modules, but using SASS
           // using the extension .module.scss or .module.sass
           {
             test: sassModuleRegex,
-            loader: getStyleLoaders(
+            use: getStyleLoaders(
               {
                 importLoaders: 2,
-                sourceMap: shouldUseSourceMap,
                 modules: true,
+                camelCase: true,
+                sourceMap: shouldUseSourceMap,
                 getLocalIdent: getCSSModuleLocalIdent,
               },
-              'sass-loader'
+              {
+                loader: require.resolve('sass-loader'),
+                options: {
+                  includePaths: ['src/'],
+                  sourceMap: shouldUseSourceMap,
+                },
+              }
             ),
           },
           // The GraphQL loader preprocesses GraphQL queries in .graphql files.
@@ -470,6 +474,13 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    // Create a reduced lodash bundle based on what you use. Only includes
+    // shorthands, collections and flattening
+    new LodashModuleReplacementPlugin({
+      shorthands: true,
+      collections: true,
+      flattening: true,
+    }),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
