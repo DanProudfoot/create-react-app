@@ -10,13 +10,7 @@
   "bugs": {
     "url": "https://github.com/facebook/create-react-app/issues"
   },
-  "files": [
-    "bin",
-    "config",
-    "scripts",
-    "template",
-    "utils"
-  ],
+  "files": ["bin", "config", "scripts", "template", "utils"],
   "bin": {
     "react-scripts": "./bin/react-scripts.js"
   },
@@ -24,7 +18,7 @@
     "@babel/core": "7.0.0-rc.1",
     "@babel/runtime": "7.0.0-rc.1",
     "@danproudfeet/babel-preset-react-app": "6.0.0-alpha.0",
-    "@svgr/webpack": "2.1.1",
+    "@svgr/webpack": "2.2.1",
     "autoprefixer": "8.5.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "8.2.3",
@@ -48,7 +42,6 @@
     "eslint-plugin-react": "7.8.2",
     "file-loader": "1.1.11",
     "fs-extra": "5.0.0",
-    "fuzzysort": "^1.1.4",
     "graphql": "0.13.2",
     "graphql-tag": "2.9.2",
     "html-webpack-plugin": "3.2.0",
@@ -90,11 +83,6 @@
       "last 2 firefox versions",
       "last 2 edge versions"
     ],
-    "production": [
-      ">1%",
-      "last 4 versions",
-      "Firefox ESR",
-      "not ie < 11"
-    ]
+    "production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
   }
 }
