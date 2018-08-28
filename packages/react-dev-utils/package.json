@@ -1,0 +1,70 @@
+{
+  "name": "@danproudfeet/react-dev-utils",
+  "version": "8.0.0-beta-4",
+  "description": "Webpack utilities used by Create React App",
+  "repository": "facebook/create-react-app",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/facebook/create-react-app/issues"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "files": [
+    "browsersHelper.js",
+    "checkRequiredFiles.js",
+    "clearConsole.js",
+    "crossSpawn.js",
+    "errorOverlayMiddleware.js",
+    "eslintFormatter.js",
+    "FileSizeReporter.js",
+    "formatWebpackMessages.js",
+    "getCSSModuleLocalIdent.js",
+    "getProcessForPort.js",
+    "ignoredFiles.js",
+    "inquirer.js",
+    "InterpolateHtmlPlugin.js",
+    "launchEditor.js",
+    "launchEditorEndpoint.js",
+    "ModuleScopePlugin.js",
+    "noopServiceWorkerMiddleware.js",
+    "openBrowser.js",
+    "openChrome.applescript",
+    "printBuildError.js",
+    "printHostingInstructions.js",
+    "WatchMissingNodeModulesPlugin.js",
+    "WebpackDevServerUtils.js",
+    "webpackHotDevClient.js",
+    "workspaceUtils.js"
+  ],
+  "dependencies": {
+    "@babel/code-frame": "7.0.0",
+    "address": "1.0.3",
+    "browserslist": "4.1.0",
+    "chalk": "2.4.1",
+    "cross-spawn": "6.0.5",
+    "detect-port-alt": "1.1.6",
+    "escape-string-regexp": "1.0.5",
+    "filesize": "3.6.1",
+    "find-pkg": "2.0.0",
+    "global-modules": "1.0.0",
+    "globby": "8.0.1",
+    "gzip-size": "5.0.0",
+    "inquirer": "6.2.0",
+    "is-root": "2.0.0",
+    "opn": "5.3.0",
+    "pkg-up": "2.0.0",
+    "react-error-overlay": "5.0.0-next.a671462c",
+    "recursive-readdir": "2.2.2",
+    "shell-quote": "1.6.1",
+    "sockjs-client": "1.1.5",
+    "strip-ansi": "4.0.0",
+    "text-table": "0.2.0"
+  },
+  "devDependencies": {
+    "jest": "23.5.0"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}
