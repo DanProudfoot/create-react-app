@@ -21,6 +21,8 @@ const postCSSLoaderOptions = {
       rootValue: remRoot,
       unitPrecision: 3,
       propList: ['*'],
+      selectorBlackList: ['html'],
+      replace: false,
     }),
     // preset-env fixes lots of browser support bugs
     presetEnv({
