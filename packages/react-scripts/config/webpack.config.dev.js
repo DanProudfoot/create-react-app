@@ -178,7 +178,9 @@ module.exports = {
         use: [
           {
             options: {
-              formatter: require.resolve('react-dev-utils/eslintFormatter'),
+              formatter: require.resolve(
+                '@danproudfeet/react-dev-utils/eslintFormatter'
+              ),
               eslintPath: require.resolve('eslint'),
               // @remove-on-eject-begin
               baseConfig: {
