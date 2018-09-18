@@ -74,7 +74,6 @@ You can find the most recent version of this guide [here](https://github.com/fac
 - [Developing Components in Isolation](#developing-components-in-isolation)
   - [Getting Started with Storybook](#getting-started-with-storybook)
   - [Getting Started with Styleguidist](#getting-started-with-styleguidist)
-- [Sharing Components in a Monorepo](#sharing-components-in-a-monorepo)
 - [Publishing Components to npm](#publishing-components-to-npm)
 - [Making a Progressive Web App](#making-a-progressive-web-app)
   - [Opting Out of Caching](#opting-out-of-caching)
@@ -218,7 +217,7 @@ In addition to [ES6](https://github.com/lukehoban/es6features) syntax features, 
 * [Object Rest/Spread Properties](https://github.com/tc39/proposal-object-rest-spread) (ES2018).
 * [Dynamic import()](https://github.com/tc39/proposal-dynamic-import) (stage 3 proposal)
 * [Class Fields and Static Properties](https://github.com/tc39/proposal-class-public-fields) (part of stage 3 proposal).
-* [JSX](https://facebook.github.io/react/docs/introducing-jsx.html) and [Flow](https://flowtype.org/) syntax.
+* [JSX](https://facebook.github.io/react/docs/introducing-jsx.html) and [Flow](https://flow.org/) syntax.
 
 Learn more about [different proposal stages](https://babeljs.io/docs/plugins/#presets-stage-x-experimental-presets-).
 
@@ -886,20 +885,20 @@ Here is an example of adding a [customized Bootstrap](https://medium.com/@tacoma
 
 Flow is a static type checker that helps you write code with fewer bugs. Check out this [introduction to using static types in JavaScript](https://medium.com/@preethikasireddy/why-use-static-types-in-javascript-part-1-8382da1e0adb) if you are new to this concept.
 
-Recent versions of [Flow](http://flowtype.org/) work with Create React App projects out of the box.
+Recent versions of [Flow](https://flow.org/) work with Create React App projects out of the box.
 
 To add Flow to a Create React App project, follow these steps:
 
 1. Run `npm install --save flow-bin` (or `yarn add flow-bin`).
 2. Add `"flow": "flow"` to the `scripts` section of your `package.json`.
-3. Run `npm run flow init` (or `yarn flow init`) to create a [`.flowconfig` file](https://flowtype.org/docs/advanced-configuration.html) in the root directory.
+3. Run `npm run flow init` (or `yarn flow init`) to create a [`.flowconfig` file](https://flow.org/en/docs/config/) in the root directory.
 4. Add `// @flow` to any files you want to type check (for example, to `src/App.js`).
 
 Now you can run `npm run flow` (or `yarn flow`) to check the files for type errors.
 You can optionally use an IDE like [Nuclide](https://nuclide.io/docs/languages/flow/) for a better integrated experience.
 In the future we plan to integrate it into Create React App even more closely.
 
-To learn more about Flow, check out [its documentation](https://flowtype.org/).
+To learn more about Flow, check out [its documentation](https://flow.org/).
 
 ## Adding a Router
 
@@ -1850,83 +1849,6 @@ Learn more about React Styleguidist:
 
 * [GitHub Repo](https://github.com/styleguidist/react-styleguidist)
 * [Documentation](https://react-styleguidist.js.org/docs/getting-started.html)
-
-## Sharing Components in a Monorepo
-
->Note: this feature is available with `react-scripts@2.0.0` and higher.
-
-A typical monorepo folder structure looks like this:
-```
-monorepo/
-  app1/
-  app2/
-  comp1/
-  comp2/
-```
-
-The monorepo allows components to be separated from the app, providing:
-* a level of encapsulation for components
-* sharing of components
-
-### How to Set Up a Monorepo
-Below expands on the monorepo structure above, adding the package.json files required to configure the monorepo for [yarn workspaces](https://yarnpkg.com/en/docs/workspaces).
-```
-monorepo/
-  package.json:
-    "workspaces": ["*"],
-    "private": true
-  app1/
-    package.json:
-      "dependencies": {
-        "@myorg/comp1": ">=0.0.0",
-        "react": "^16.2.0"
-      },
-      "devDependencies": {
-        "react-scripts": "2.0.0"
-      }
-    src/
-      app.js: import comp1 from '@myorg/comp1';
-  app2/
-    package.json:
-      "dependencies": {
-        "@myorg/comp1": ">=0.0.0",
-        "react": "^16.2.0"
-      },
-      "devDependencies": {
-        "react-scripts": "2.0.0"
-      }
-    src/
-      app.js: import comp1 from '@myorg/comp1';
-  comp1/
-    package.json:
-      "name": "@myorg/comp1",
-      "version": "0.1.0"
-    index.js
-  comp2/
-    package.json:
-      "name": "@myorg/comp2",
-      "version": "0.1.0",
-      "dependencies": {
-        "@myorg/comp1": ">=0.0.0"
-      },
-      "devDependencies": {
-        "react": "^16.2.0"
-      }
-    index.js: import comp1 from '@myorg/comp1'
-```
-* Monorepo tools work on a package level, the same level as an npm package.
-* The "workspaces" in the top-level package.json is an array of glob patterns specifying where shared packages are located in the monorepo.
-* The scoping prefixes, e.g. @myorg/, are not required, but are recommended, allowing you to differentiate your packages from others of the same name.  See [scoped packages ](https://docs.npmjs.com/misc/scope) for more info.
-* Using a package in the monorepo is accomplished in the same manner as a published npm package, by specifying the shared package as dependency.
-* In order to pick up the monorepo version of a package, the specified dependency version must semantically match the package version in the monorepo.  See [semver](https://docs.npmjs.com/misc/semver) for info on semantic version matching.
-
-### CRA Apps in a Monorepo
-* CRA apps in a monorepo are just a standard CRA app, they use the same react-script scripts.
-* However, when you use react-scripts for an app in a monorepo, all packages in the monorepo are treated as app sources -- they are watched, linted, transpiled, and tested in the same way as if they were part of the app itself.
-* Without this functionality, each package would need its own build/test/etc functionality and it would be challenging to link all of these together.
-
-### Lerna and Publishing
-[Lerna](https://github.com/lerna/lerna) is a popular tool for managing monorepos.  Lerna can be configured to use yarn workspaces, so it will work with the monorepo structure above.  It's important to note that while lerna helps publish various packages in a monorepo, react-scripts does nothing to help publish a component to npm.  A component which uses JSX or ES6+ features would need to be built by another tool before it can be published to npm.  See [publishing components to npm](#publishing-components-to-npm) for more info.
 
 ## Publishing Components to npm
 
