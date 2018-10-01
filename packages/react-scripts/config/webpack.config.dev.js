@@ -19,6 +19,8 @@ const getCSSModuleLocalIdent = require('@danproudfeet/react-dev-utils/getCSSModu
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
+const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 
 // Dan additions
 const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
@@ -72,10 +74,7 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   // These are the "entry points" to our application.
   // This means they will be the "root" imports that are included in JS bundle.
-  // The first two entry points enable "hot" CSS and auto-refreshes for JS.
   entry: [
-    // We ship a few polyfills by default:
-    require.resolve('./polyfills'),
     // Include an alternative client for WebpackDevServer. A client's job is to
     // connect to WebpackDevServer by a socket and get notified about changes.
     // When you save a file, the client will either apply hot updates (in case
@@ -114,7 +113,7 @@ module.exports = {
     // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
     splitChunks: {
       chunks: 'all',
-      name: 'vendors',
+      name: false,
     },
     // Keep the runtime chunk seperated to enable long term caching
     // https://twitter.com/wSokra/status/969679223278505985
@@ -137,15 +136,6 @@ module.exports = {
     // for React Native Web.
     extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
-      // @remove-on-eject-begin
-      // Resolve Babel runtime relative to react-scripts.
-      // It usually still works on npm 3 without this but it would be
-      // unfortunate to rely on, as react-scripts could be symlinked,
-      // and thus @babel/runtime might not be resolvable from the source.
-      '@babel/runtime': path.dirname(
-        require.resolve('@babel/runtime/package.json')
-      ),
-      // @remove-on-eject-end
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
@@ -185,6 +175,7 @@ module.exports = {
               // @remove-on-eject-begin
               baseConfig: {
                 extends: [require.resolve('eslint-config-react-app')],
+                settings: { react: { version: '999.999.999' } },
               },
               ignore: false,
               useEslintrc: false,
@@ -194,6 +185,16 @@ module.exports = {
           },
         ],
         include: paths.appSrc,
+      },
+      {
+        // `mjs` support is still in its infancy in the ecosystem, so we don't
+        // support it.
+        // Modules who define their `browser` or `module` key as `mjs` force
+        // the use of this extension, so we need to tell webpack to fall back
+        // to auto mode (ES Module interop, allows ESM to import CommonJS).
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
       },
       {
         // "oneOf" will traverse all following loaders until one will
@@ -216,73 +217,80 @@ module.exports = {
           {
             test: /\.(js|jsx)$/,
             include: paths.appSrc,
-            use: [
-              // This loader parallelizes code compilation, it is optional but
-              // improves compile time on larger projects
-              {
-                loader: require.resolve('thread-loader'),
-                options: {
-                  poolTimeout: Infinity, // keep workers alive for more effective watch mode
-                },
-              },
-              {
-                loader: require.resolve('babel-loader'),
-                options: {
-                  // @remove-on-eject-begin
-                  babelrc: false,
-                  // @remove-on-eject-end
-                  presets: [
-                    require.resolve('@danproudfeet/babel-preset-react-app'),
-                  ],
-                  plugins: [
-                    [
-                      require.resolve('babel-plugin-named-asset-import'),
-                      {
-                        loaderMap: {
-                          svg: {
-                            ReactComponent: '@svgr/webpack![path]',
-                          },
-                        },
+            loader: require.resolve('babel-loader'),
+            options: {
+              customize: require.resolve(
+                'babel-preset-react-app/webpack-overrides'
+              ),
+              // @remove-on-eject-begin
+              babelrc: false,
+              configFile: false,
+              presets: [require.resolve('babel-preset-react-app')],
+              // Make sure we have a unique cache identifier, erring on the
+              // side of caution.
+              // We remove this when the user ejects because the default
+              // is sane and uses Babel options. Instead of options, we use
+              // the react-scripts and babel-preset-react-app versions.
+              cacheIdentifier: getCacheIdentifier('development', [
+                'babel-plugin-named-asset-import',
+                'babel-preset-react-app',
+                'react-dev-utils',
+                'react-scripts',
+              ]),
+              // @remove-on-eject-end
+              plugins: [
+                [
+                  require.resolve('babel-plugin-named-asset-import'),
+                  {
+                    loaderMap: {
+                      svg: {
+                        ReactComponent: '@svgr/webpack?-prettier,-svgo![path]',
                       },
-                    ],
-                  ],
-                  // This is a feature of `babel-loader` for webpack (not Babel itself).
-                  // It enables caching results in ./node_modules/.cache/babel-loader/
-                  // directory for faster rebuilds.
-                  cacheDirectory: true,
-                  highlightCode: true,
-                },
-              },
-            ],
+                    },
+                  },
+                ],
+              ],
+              // This is a feature of `babel-loader` for webpack (not Babel itself).
+              // It enables caching results in ./node_modules/.cache/babel-loader/
+              // directory for faster rebuilds.
+              cacheDirectory: true,
+              // Don't waste time on Gzipping the cache
+              cacheCompression: false,
+            },
           },
           // Process any JS outside of the app with Babel.
           // Unlike the application JS, we only compile the standard ES features.
           {
             test: /\.js$/,
-            use: [
-              // This loader parallelizes code compilation, it is optional but
-              // improves compile time on larger projects
-              {
-                loader: require.resolve('thread-loader'),
-                options: {
-                  poolTimeout: Infinity, // keep workers alive for more effective watch mode
-                },
-              },
-              {
-                loader: require.resolve('babel-loader'),
-                options: {
-                  babelrc: false,
-                  compact: false,
-                  presets: [
-                    require.resolve(
-                      '@danproudfeet/babel-preset-react-app/dependencies'
-                    ),
-                  ],
-                  cacheDirectory: true,
-                  highlightCode: true,
-                },
-              },
-            ],
+            exclude: /@babel(?:\/|\\{1,2})runtime/,
+            loader: require.resolve('babel-loader'),
+            options: {
+              babelrc: false,
+              configFile: false,
+              compact: false,
+              presets: [
+                [
+                  require.resolve('babel-preset-react-app/dependencies'),
+                  { helpers: true },
+                ],
+              ],
+              cacheDirectory: true,
+              // Don't waste time on Gzipping the cache
+              cacheCompression: false,
+              // @remove-on-eject-begin
+              cacheIdentifier: getCacheIdentifier('development', [
+                'babel-plugin-named-asset-import',
+                'babel-preset-react-app',
+                'react-dev-utils',
+                'react-scripts',
+              ]),
+              // @remove-on-eject-end
+              // If an error happens in a package, it's possible to be
+              // because it was compiled. Thus, we don't want the browser
+              // debugger to show the original code. Instead, the code
+              // being evaluated would be much more helpful.
+              sourceMaps: false,
+            },
           },
           // "postcss" loader applies autoprefixer to our CSS.
           // "css" loader resolves paths in CSS and adds assets as dependencies.
@@ -350,11 +358,6 @@ module.exports = {
               }
             ),
           },
-          // The GraphQL loader preprocesses GraphQL queries in .graphql files.
-          {
-            test: /\.(graphql)$/,
-            loader: 'graphql-tag/loader',
-          },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
           // In production, they would get copied to the `build` folder.
@@ -387,7 +390,10 @@ module.exports = {
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In development, this will be an empty string.
-    new InterpolateHtmlPlugin(env.raw),
+    new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+    // This gives some necessary context to module not found errors, such as
+    // the requesting resource.
+    new ModuleNotFoundPlugin(paths.appPath),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
     new webpack.DefinePlugin(env.stringified),

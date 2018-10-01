@@ -22,11 +22,12 @@ const postCSSLoaderOptions = {
       unitPrecision: 3,
       propList: ['*'],
       selectorBlackList: ['html'],
-      replace: false,
+      replace: true,
     }),
     // preset-env fixes lots of browser support bugs
     presetEnv({
-      autoprefixer: { flexbox: 'no-2009', grid: true },
+	  autoprefixer: { flexbox: 'no-2009', grid: true },
+	  stage: 3
     }),
     // Merge all Media Queries together
     cssMqpacker(),

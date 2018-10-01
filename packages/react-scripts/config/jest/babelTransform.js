@@ -13,4 +13,5 @@ module.exports = babelJest.createTransformer({
   presets: [require.resolve('@danproudfeet/babel-preset-react-app')],
   // @remove-on-eject-begin
   babelrc: false,
+  configFile: false,
 });
