@@ -24,8 +24,8 @@ You can find the most recent version of this guide [here](https://github.com/fac
 - [Importing a Component](#importing-a-component)
 - [Code Splitting](#code-splitting)
 - [Adding a Stylesheet](#adding-a-stylesheet)
-- [Adding a CSS Modules stylesheet](#adding-a-css-modules-stylesheet)
-- [Adding a Sass stylesheet](#adding-a-sass-stylesheet)
+- [Adding a CSS Modules Stylesheet](#adding-a-css-modules-stylesheet)
+- [Adding a Sass Stylesheet](#adding-a-sass-stylesheet)
 - [Post-Processing CSS](#post-processing-css)
 - [Adding Images, Fonts, and Files](#adding-images-fonts-and-files)
 - [Adding SVGs](#adding-svgs)
@@ -203,7 +203,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 ## Supported Browsers
 
 By default, the generated project supports all modern browsers.<br>
-Support for Internet Explorer 9, 10, and 11 requires [polyfills](https://github.com/facebook/create-react-app/blob/next/packages/react-app-polyfill/README.md).
+Support for Internet Explorer 9, 10, and 11 requires [polyfills](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md).
 
 ### Supported Language Features
 
@@ -221,9 +221,9 @@ Learn more about [different proposal stages](https://babeljs.io/docs/plugins/#pr
 
 While we recommend using experimental proposals with some caution, Facebook heavily uses these features in the product code, so we intend to provide [codemods](https://medium.com/@cpojer/effective-javascript-codemods-5a6686bb46fb) if any of these proposals change in the future.
 
-Note that **this project includes no [polyfills](https://github.com/facebook/create-react-app/blob/next/packages/react-app-polyfill/README.md)** by default.
+Note that **this project includes no [polyfills](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md)** by default.
 
-If you use any other ES6+ features that need **runtime support** (such as `Array.from()` or `Symbol`), make sure you are including the appropriate polyfills manually, or that the browsers you are targeting already support them.
+If you use any other ES6+ features that need **runtime support** (such as `Array.from()` or `Symbol`), make sure you are [including the appropriate polyfills manually](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md), or that the browsers you are targeting already support them.
 
 ## Syntax Highlighting in the Editor
 
@@ -511,15 +511,15 @@ In development, expressing dependencies this way allows your styles to be reload
 
 If you are concerned about using Webpack-specific semantics, you can put all your CSS right into `src/index.css`. It would still be imported from `src/index.js`, but you could always remove that import if you later migrate to a different build tool.
 
-## Adding a CSS Modules stylesheet
+## Adding a CSS Modules Stylesheet
 
 > Note: this feature is available with `react-scripts@2.0.0` and higher.
 
-This project supports [CSS Modules](https://github.com/css-modules/css-modules) alongside regular stylesheets using the **[name].module.css** file naming convention. CSS Modules allows the scoping of CSS by automatically creating a unique classname of the format **[filename]\_[classname]\_\_[hash]**.
+This project supports [CSS Modules](https://github.com/css-modules/css-modules) alongside regular stylesheets using the `[name].module.css` file naming convention. CSS Modules allows the scoping of CSS by automatically creating a unique classname of the format `[filename]\_[classname]\_\_[hash]`.
 
-> **Tip:** Should you want to preprocess a stylesheet with Sass then make sure to [follow the installation instructions](#adding-a-sass-stylesheet) and then change the stylesheet file extension as follows: _[name].module.scss_ or _[name].module.sass_.
+> **Tip:** Should you want to preprocess a stylesheet with Sass then make sure to [follow the installation instructions](#adding-a-sass-stylesheet) and then change the stylesheet file extension as follows: `[name].module.scss` or `[name].module.sass`.
 
-An advantage of this is the ability to repeat the same classname within many CSS files without worrying about a clash.
+CSS Modules let you use the same CSS class name in different files without worrying about naming clashes. Learn more about CSS Modules [here](https://css-tricks.com/css-modules-part-1-need/).
 
 ### `Button.module.css`
 
@@ -552,7 +552,7 @@ class Button extends Component {
 }
 ```
 
-### `exported HTML`
+### Result
 
 No clashes from other `.error` class names
 
@@ -561,9 +561,9 @@ No clashes from other `.error` class names
 <button class="Button_error_ax7yz"></div>
 ```
 
-**This is an optional feature.** Regular html stylesheets and js imported stylesheets are fully supported. CSS Modules are only added when explicitly named as a css module stylesheet using the extension `.module.css`.
+**This is an optional feature.** Regular `<link>` stylesheets and CSS files are fully supported. CSS Modules are turned on for files ending with the `.module.css` extension.
 
-## Adding a Sass stylesheet
+## Adding a Sass Stylesheet
 
 > Note: this feature is available with `react-scripts@2.0.0` and higher.
 
@@ -684,8 +684,7 @@ An alternative way of handling static assets is described in the next section.
 One way to add SVG files was described in the section above. You can also import SVGs directly as React components. You can use either of the two approaches. In your code it would look like this:
 
 ```js
-import { ReactComponent as Logo } from './logo.svg'
-
+import { ReactComponent as Logo } from './logo.svg';
 const App = () => (
   <div>
     {/* Logo is an actual React component */}
@@ -808,14 +807,28 @@ Now you are ready to use the imported reactstrap components within your componen
 
 ### Using a Custom Theme
 
+> Note: this feature is available with `react-scripts@2.0.0` and higher.
+
 Sometimes you might need to tweak the visual styles of Bootstrap (or equivalent package).<br>
-We suggest the following approach:
+As of `react-scripts@2.0.0` you can import `.scss` files. This makes it possible to use a package's built-in Sass variables for global style preferences.
 
-- Create a new package that depends on the package you wish to customize, e.g. Bootstrap.
-- Add the necessary build steps to tweak the theme, and publish your package on npm.
-- Install your own theme npm package as a dependency of your app.
+To customize Bootstrap, create a file called `src/custom.scss` (or similar) and import the Bootstrap source stylesheet. Add any overrides _before_ the imported file(s). You can reference [Bootstrap's documentation](http://getbootstrap.com/docs/4.1/getting-started/theming/#css-variables) for the names of the available variables.
 
-Here is an example of adding a [customized Bootstrap](https://medium.com/@tacomanator/customizing-create-react-app-aa9ffb88165) that follows these steps.
+```scss
+// Override default variables before the import
+$body-bg: #000;
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';
+```
+
+> **Note:** You must prefix imports from `node_modules` with `~` as displayed above.
+
+Finally, import the newly created `.scss` file instead of the default Bootstrap `.css` in the beginning of your `src/index.js` file, for example:
+
+```javascript
+import './custom.scss';
+```
 
 ## Adding Flow
 
@@ -1018,12 +1031,11 @@ REACT_APP_BAR=$DOMAIN/bar
 
 ## Can I Use Decorators?
 
-Many popular libraries use [decorators](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841) in their documentation.<br>
-Create React App doesn’t support decorator syntax at the moment because:
+Some popular libraries use [decorators](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841) in their documentation.<br>
+Create React App intentionally doesn’t support decorator syntax at the moment because:
 
-- It is an experimental proposal and is subject to change.
-- The current specification version is not officially supported by Babel.
-- If the specification changes, we won’t be able to write a codemod because we don’t use them internally at Facebook.
+- It is an experimental proposal and is subject to change (in fact, it has already changed once, and will change again).
+- Most libraries currently support only the old version of the proposal — which will never be a standard.
 
 However in many cases you can rewrite decorator-based code without decorators just as fine.<br>
 Please refer to these two threads for reference:
@@ -1042,7 +1054,7 @@ The global `fetch` function allows you to easily make AJAX requests. It takes in
 A Promise represents the eventual result of an asynchronous operation, you can find more information about Promises [here](https://www.promisejs.org/) and [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). Both axios and `fetch()` use Promises under the hood. You can also use the [`async / await`](https://davidwalsh.name/async-await) syntax to reduce the callback nesting.
 
 Make sure the [`fetch()` API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) and [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) are available in your target audience's browsers.
-For example, support in Internet Explorer requires a [polyfill](https://github.com/facebook/create-react-app/blob/next/packages/react-app-polyfill/README.md).
+For example, support in Internet Explorer requires a [polyfill](https://github.com/facebook/create-react-app/blob/master/packages/react-app-polyfill/README.md).
 
 You can learn more about making AJAX requests from React components in [the FAQ entry on the React website](https://reactjs.org/docs/faq-ajax.html).
 
@@ -1786,6 +1798,8 @@ Offline-first Progressive Web Apps are faster and more reliable than traditional
 - Your app will work regardless of network state, even if offline. This means your users will be able to use your app at 10,000 feet and on the subway.
 - On mobile devices, your app can be added directly to the user's home screen, app icon and all. This eliminates the need for the app store.
 
+However, they [can make debugging deployments more challenging](https://github.com/facebook/create-react-app/issues/2398) so, starting with Create React App 2, service workers are opt-in.
+
 The [`workbox-webpack-plugin`](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin)
 is integrated into production configuration,
 and it will take care of generating a service worker file that will automatically
@@ -2364,7 +2378,7 @@ You can adjust various development and production settings by setting environmen
 | CHOKIDAR_USEPOLLING |   :white_check_mark:   |        :x:         | When set to `true`, the watcher runs in polling mode, as necessary inside a VM. Use this option if `npm start` isn't detecting changes.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | GENERATE_SOURCEMAP  |          :x:           | :white_check_mark: | When set to `false`, source maps are not generated for a production build. This solves OOM issues on some smaller machines.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | NODE_PATH           |   :white_check_mark:   | :white_check_mark: | Same as [`NODE_PATH` in Node.js](https://nodejs.org/api/modules.html#modules_loading_from_the_global_folders), but only relative folders are allowed. Can be handy for emulating a monorepo setup by setting `NODE_PATH=src`.                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-REM_ROOT_VALUE | :white_check_mark: |  :white_check_mark: | Sets the base font size used by the postCSS px-to-rem plugin. Defaults to 16
+| REM_ROOT_VALUE      |   :white_check_mark:   | :white_check_mark: | Sets the base font size used by the postCSS px-to-rem plugin. Defaults to 16                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 
 ## Troubleshooting
 
@@ -2447,9 +2461,9 @@ This will only work for locales that have been explicitly imported before.
 
 ### `npm run build` fails to minify
 
-Starting in Create React App v2, we now compile all ES.Next features found in `node_modules`. This means you can consume packages and not worry about them being syntax-incompatible with any browser.
+Before `react-scripts@2.0.0`, this problem was caused by third party `node_modules` using modern JavaScript features because the minifier couldn't handle them during the build. This has been solved by compiling standard modern JavaScript features inside `node_modules` in `react-scripts@2.0.0` and higher.
 
-If you're seeing this error, you're likely using an old version of `react-scripts` and need to upgrade to `react-scripts@>=2.0.0`.
+If you're seeing this error, you're likely using an old version of `react-scripts`. You can either fix it by avoiding a dependency that uses modern syntax, or by upgrading to `react-scripts@>=2.0.0` and following the migration instructions in the changelog.
 
 ## Alternatives to Ejecting
 
