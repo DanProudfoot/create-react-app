@@ -13,10 +13,10 @@ const webpack = require('webpack');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const InterpolateHtmlPlugin = require('@danproudfeet/react-dev-utils/InterpolateHtmlPlugin');
-const WatchMissingNodeModulesPlugin = require('@danproudfeet/react-dev-utils/WatchMissingNodeModulesPlugin');
-const ModuleScopePlugin = require('@danproudfeet/react-dev-utils/ModuleScopePlugin');
-const getCSSModuleLocalIdent = require('@danproudfeet/react-dev-utils/getCSSModuleLocalIdent');
+const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
+const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
+const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -86,7 +86,7 @@ module.exports = {
     // the line below with these two lines if you prefer the stock client:
     // require.resolve('webpack-dev-server/client') + '?/',
     // require.resolve('webpack/hot/dev-server'),
-    require.resolve('@danproudfeet/react-dev-utils/webpackHotDevClient'),
+    require.resolve('react-dev-utils/webpackHotDevClient'),
     // Finally, this is your app's code:
     paths.appIndexJs,
     // We include the app code last so that if there is a runtime error during
@@ -179,9 +179,7 @@ module.exports = {
         use: [
           {
             options: {
-              formatter: require.resolve(
-                '@danproudfeet/react-dev-utils/eslintFormatter'
-              ),
+              formatter: require.resolve('react-dev-utils/eslintFormatter'),
               eslintPath: require.resolve('eslint'),
               // @remove-on-eject-begin
               baseConfig: {
@@ -231,12 +229,14 @@ module.exports = {
             loader: require.resolve('babel-loader'),
             options: {
               customize: require.resolve(
-                'babel-preset-react-app/webpack-overrides'
+                '@danproudfeet/babel-preset-react-app/webpack-overrides'
               ),
               // @remove-on-eject-begin
               babelrc: false,
               configFile: false,
-              presets: [require.resolve('babel-preset-react-app')],
+              presets: [
+                require.resolve('@danproudfeet/babel-preset-react-app'),
+              ],
               // Make sure we have a unique cache identifier, erring on the
               // side of caution.
               // We remove this when the user ejects because the default
@@ -244,7 +244,7 @@ module.exports = {
               // the react-scripts and babel-preset-react-app versions.
               cacheIdentifier: getCacheIdentifier('development', [
                 'babel-plugin-named-asset-import',
-                'babel-preset-react-app',
+                '@danproudfeet/babel-preset-react-app',
                 'react-dev-utils',
                 'react-scripts',
               ]),
@@ -281,7 +281,9 @@ module.exports = {
               compact: false,
               presets: [
                 [
-                  require.resolve('babel-preset-react-app/dependencies'),
+                  require.resolve(
+                    '@danproudfeet/babel-preset-react-app/dependencies'
+                  ),
                   { helpers: true },
                 ],
               ],
@@ -291,7 +293,7 @@ module.exports = {
               // @remove-on-eject-begin
               cacheIdentifier: getCacheIdentifier('development', [
                 'babel-plugin-named-asset-import',
-                'babel-preset-react-app',
+                '@danproudfeet/babel-preset-react-app',
                 'react-dev-utils',
                 'react-scripts',
               ]),
