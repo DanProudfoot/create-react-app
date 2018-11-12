@@ -57,9 +57,9 @@ switch (script) {
   }
   default:
     console.log('Unknown script "' + script + '".');
-    console.log('Perhaps you need to update react-scripts?');
+    console.log('Perhaps you need to update @danproudfeet/react-scripts?');
     console.log(
-      'See: https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#updating-to-new-releases'
+      'See: https://github.com/facebook/create-react-app/blob/master/packages/@danproudfeet/react-scripts/template/README.md#updating-to-new-releases'
     );
     break;
 }

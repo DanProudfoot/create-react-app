@@ -1,6 +1,6 @@
 {
-  "name": "react-scripts",
-  "version": "2.1.1",
+  "name": "@danproudfeet/react-scripts",
+  "version": "4.0.0-beta.10",
   "description": "Configuration and scripts for Create React App.",
   "repository": "facebook/create-react-app",
   "license": "MIT",
@@ -20,7 +20,7 @@
     "utils"
   ],
   "bin": {
-    "react-scripts": "./bin/react-scripts.js"
+    "@danproudfeet/react-scripts": "./bin/react-scripts.js"
   },
   "types": "./lib/react-app.d.ts",
   "dependencies": {
@@ -31,7 +31,7 @@
     "babel-jest": "23.6.0",
     "babel-loader": "8.0.4",
     "babel-plugin-named-asset-import": "^0.2.3",
-    "babel-preset-react-app": "^6.1.0",
+    "@danproudfeet/babel-preset-react-app": "6.1.0-beta.0",
     "bfj": "6.1.1",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "chalk": "2.4.1",

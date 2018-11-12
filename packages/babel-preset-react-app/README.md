@@ -1,10 +1,10 @@
-# babel-preset-react-app
+# @danproudfeet/babel-preset-react-app
 
 This package includes the Babel preset used by [Create React App](https://github.com/facebook/create-react-app).<br>
 Please refer to its documentation:
 
 - [Getting Started](https://github.com/facebook/create-react-app/blob/master/README.md#getting-started) – How to create a new app.
-- [User Guide](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md) – How to develop apps bootstrapped with Create React App.
+- [User Guide](https://github.com/facebook/create-react-app/blob/master/packages/@danproudfeet/react-scripts/template/README.md) – How to develop apps bootstrapped with Create React App.
 
 ## Usage in Create React App Projects
 
@@ -16,10 +16,10 @@ If you want to use this Babel preset in a project not built with Create React Ap
 
 First, [install Babel](https://babeljs.io/docs/setup/).
 
-Then install babel-preset-react-app.
+Then install @danproudfeet/babel-preset-react-app.
 
 ```sh
-npm install babel-preset-react-app --save-dev
+npm install @danproudfeet/babel-preset-react-app --save-dev
 ```
 
 Then create a file named `.babelrc` with following contents in the root folder of your project:

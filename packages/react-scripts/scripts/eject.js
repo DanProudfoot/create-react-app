@@ -150,7 +150,7 @@ inquirer
     console.log(cyan('Updating the dependencies'));
     const ownPackageName = ownPackage.name;
     if (appPackage.devDependencies) {
-      // We used to put react-scripts in devDependencies
+      // We used to put @danproudfeet/react-scripts in devDependencies
       if (appPackage.devDependencies[ownPackageName]) {
         console.log(`  Removing ${cyan(ownPackageName)} from devDependencies`);
         delete appPackage.devDependencies[ownPackageName];
@@ -230,12 +230,12 @@ inquirer
         const ownContent =
           fs.readFileSync(paths.ownTypeDeclarations, 'utf8').trim() + os.EOL;
 
-        // Remove react-scripts reference since they're getting a copy of the types in their project
+        // Remove @danproudfeet/react-scripts reference since they're getting a copy of the types in their project
         content =
           content
-            // Remove react-scripts types
+            // Remove @danproudfeet/react-scripts types
             .replace(
-              /^\s*\/\/\/\s*<reference\s+types.+?"react-scripts".*\/>.*(?:\n|$)/gm,
+              /^\s*\/\/\/\s*<reference\s+types.+?"@danproudfeet\/react-scripts".*\/>.*(?:\n|$)/gm,
               ''
             )
             .trim() + os.EOL;
@@ -253,7 +253,7 @@ inquirer
     // "Don't destroy what isn't ours"
     if (ownPath.indexOf(appPath) === 0) {
       try {
-        // remove react-scripts and react-scripts binaries from app node_modules
+        // remove @danproudfeet/react-scripts and @danproudfeet/react-scripts binaries from app node_modules
         Object.keys(ownPackage.bin).forEach(binKey => {
           fs.removeSync(path.join(appPath, 'node_modules', '.bin', binKey));
         });

@@ -95,10 +95,10 @@ module.exports = function(
 
   // Setup the script rules
   appPackage.scripts = {
-    start: 'react-scripts start',
-    build: 'react-scripts build',
-    test: 'react-scripts test',
-    eject: 'react-scripts eject',
+    start: '@danproudfeet/react-scripts start',
+    build: '@danproudfeet/react-scripts build',
+    test: '@danproudfeet/react-scripts test',
+    eject: '@danproudfeet/react-scripts eject',
   };
 
   // Setup the eslint config
@@ -182,7 +182,7 @@ module.exports = function(
   }
 
   // Install react and react-dom for backward compatibility with old CRA cli
-  // which doesn't install react and react-dom along with react-scripts
+  // which doesn't install react and react-dom along with @danproudfeet/react-scripts
   // or template is presetend (via --internal-testing-template)
   if (!isReactInstalled(appPackage) || template) {
     console.log(`Installing react and react-dom using ${command}...`);
