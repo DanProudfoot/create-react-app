@@ -118,7 +118,7 @@ module.exports = function(webpackEnv) {
               replace: true,
             }),
           ],
-          sourceMap: isEnvProduction && shouldUseSourceMap,
+          sourceMap: shouldUseSourceMap,
         },
       },
     ].filter(Boolean);
@@ -126,7 +126,8 @@ module.exports = function(webpackEnv) {
       loaders.push({
         loader: require.resolve(preProcessor),
         options: {
-          sourceMap: isEnvProduction && shouldUseSourceMap,
+		  sourceMap: shouldUseSourceMap,
+		  includePaths: ['src/'],
         },
       });
     }
