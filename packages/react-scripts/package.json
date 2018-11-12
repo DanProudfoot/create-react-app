@@ -1,6 +1,6 @@
 {
   "name": "@danproudfeet/react-scripts",
-  "version": "4.0.0-beta.10",
+  "version": "4.1.0-beta.0",
   "description": "Configuration and scripts for Create React App.",
   "repository": "facebook/create-react-app",
   "license": "MIT",
@@ -70,7 +70,11 @@
     "webpack": "4.25.1",
     "webpack-dev-server": "3.1.10",
     "webpack-manifest-plugin": "2.0.4",
-    "workbox-webpack-plugin": "3.6.3"
+    "workbox-webpack-plugin": "3.6.3",
+    "directory-named-webpack-plugin": "^4.0.0",
+    "lodash-webpack-plugin": "^0.11.5",
+    "css-mqpacker": "7.0.0",
+    "postcss-pxtorem": "4.0.1"
   },
   "devDependencies": {
     "react": "^16.6.1",
