@@ -1,6 +1,6 @@
 {
   "name": "@danproudfeet/babel-preset-react-app",
-  "version": "6.1.0-beta.0",
+  "version": "6.1.0-beta.1",
   "description": "Babel preset used by Create React App",
   "repository": "facebook/create-react-app",
   "license": "MIT",
@@ -33,10 +33,10 @@
     "@babel/preset-typescript": "7.1.0",
     "@babel/runtime": "7.1.5",
     "babel-loader": "8.0.4",
-    "babel-plugin-dynamic-import-node": "2.2.0",
-    "babel-plugin-macros": "2.4.2",
-    "babel-plugin-transform-react-remove-prop-types": "0.4.20",
     "babel-plugin-classnames": "0.2.0",
-    "babel-plugin-lodash": "3.3.4"
+    "babel-plugin-dynamic-import-node": "2.2.0",
+    "babel-plugin-lodash": "3.3.4",
+    "babel-plugin-macros": "2.4.2",
+    "babel-plugin-transform-react-remove-prop-types": "0.4.20"
   }
 }
