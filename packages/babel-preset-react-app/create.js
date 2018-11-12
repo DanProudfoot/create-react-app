@@ -117,11 +117,8 @@ module.exports = function(api, opts, env) {
       // in practice some other transforms (such as object-rest-spread)
       // don't work without it: https://github.com/babel/babel/issues/7215
       require('@babel/plugin-transform-destructuring').default,
-      // Turn on legacy decorators for TypeScript files
-      isTypeScriptEnabled && [
-        require('@babel/plugin-proposal-decorators').default,
-        false,
-      ],
+      // Turn on legacy decorators
+      [require('@babel/plugin-proposal-decorators').default, false],
       // class { handleClick = () => { } }
       // Enable loose mode to use assignment instead of defineProperty
       // See discussion in https://github.com/facebook/create-react-app/issues/4263
@@ -158,6 +155,11 @@ module.exports = function(api, opts, env) {
           absoluteRuntime: absoluteRuntimePath,
         },
       ],
+      // Transform className calls to use classnames library automagically
+      require('babel-plugin-classnames').default,
+      // Reduce size of lodash bundles
+      require('babel-plugin-lodash').default,
+      // Allows loadable-components to work with Webpack and Babel - fills in a lot of stuff you'd otherwise do manually.
       isEnvProduction && [
         // Remove PropTypes from production build
         require('babel-plugin-transform-react-remove-prop-types').default,
@@ -172,8 +174,7 @@ module.exports = function(api, opts, env) {
         require('babel-plugin-dynamic-import-node'),
     ].filter(Boolean),
     overrides: [
-      isTypeScriptEnabled && {
-        test: /\.tsx?$/,
+      {
         plugins: [
           [
             require('@babel/plugin-proposal-decorators').default,
