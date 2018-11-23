@@ -126,8 +126,8 @@ module.exports = function(webpackEnv) {
       loaders.push({
         loader: require.resolve(preProcessor),
         options: {
-		  sourceMap: shouldUseSourceMap,
-		  includePaths: ['src/'],
+          sourceMap: shouldUseSourceMap,
+          includePaths: ['src/'],
         },
       });
     }
@@ -478,6 +478,7 @@ module.exports = function(webpackEnv) {
                 importLoaders: 1,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
                 modules: true,
+                camelCase: true,
                 getLocalIdent: getCSSModuleLocalIdent,
               }),
             },
@@ -509,6 +510,7 @@ module.exports = function(webpackEnv) {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                   modules: true,
+                  camelCase: true,
                   getLocalIdent: getCSSModuleLocalIdent,
                 },
                 'sass-loader'
