@@ -113,7 +113,7 @@ module.exports = function(webpackEnv) {
             require('css-mqpacker')(),
             require('postcss-pxtorem')({
               unitPrecision: 3,
-              propList: ['*'],
+              propList: ['font', 'font-size', 'line-height', 'letter-spacing'],
               selectorBlackList: ['html'],
               replace: true,
             }),
