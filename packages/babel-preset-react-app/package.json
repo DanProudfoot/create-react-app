@@ -1,6 +1,6 @@
 {
   "version": "7.0.1",
-  "name": "babel-preset-react-app",
+  "name": "@danproudfeet/babel-preset-react-app",
   "description": "Babel preset used by Create React App",
   "repository": "facebook/create-react-app",
   "license": "MIT",
